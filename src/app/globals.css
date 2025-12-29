@@ -40,3 +40,20 @@ a {
     color-scheme: dark;
   }
 }
+
+@font-face {
+  font-family: 'JB';
+  src: url('/font/210B.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'JR';
+  src: url('/font/210R.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'JL';
+  src: url('/font/210L.ttf') format('truetype');
+}
