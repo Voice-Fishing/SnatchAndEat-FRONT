@@ -71,6 +71,10 @@ const Header = () => {
           onClick={() => router.push("/search")}
           isActive={isActive("/search")}
         >식당 찾기</Menu>
+        <Menu
+          onClick={() => router.push("/identify")}
+          isActive={isActive("/identify")}
+        >이미지 분석</Menu>
       </MenuLayout>
       <UserLayout>
         {isLoggedIn ? (
