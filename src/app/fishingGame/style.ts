@@ -1,0 +1,73 @@
+import styled from "@emotion/styled";
+import font from "../../packages/design-system/font";
+
+export const Container = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+`;
+
+export const Background = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+`;
+
+
+const BaseMark = styled.div`
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 145px;
+    height: 125px;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    ${font.H2}
+    color: black;
+    padding-bottom: 57px;
+
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        transform: translate(-50%, -60%) scale(1.1);
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+    }
+`;
+
+export const Mark = styled(BaseMark)`
+    top: 55%;
+    left: 37%;
+`;
+
+export const Mark2 = styled(BaseMark)`
+    top: 78%;
+    left: 53%;
+`;
+
+export const Mark3 = styled(BaseMark)`
+    top: 50%;
+    left: 62%;
+`;
+
+
+export const MarkImage = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 텍스트 뒤로 보냄 */
+
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+`;
+
