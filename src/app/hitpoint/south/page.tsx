@@ -17,7 +17,7 @@ const South = () => {
     return (
         <_.Background>
             <_.Main>
-                <_.Back onClick={() => { router.push("/fishingGame") }} >뒤로가기</_.Back>
+                <_.Back onClick={() => { router.push("/hitpoint") }} >뒤로가기</_.Back>
                 <_.InfoBox>
                     <_.Info>
                         <_.MainInfo>

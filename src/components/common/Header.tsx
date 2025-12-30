@@ -86,9 +86,9 @@ export default function Header() {
       </Link>
 
       <NavLinks>
-        <NavItem href="/fishing">낚시하기</NavItem>
-        <NavItem href="/encyclopedia">도감</NavItem>
-        <NavItem href="/restaurant">식당 찾기</NavItem>
+        <NavItem href="/hitpoint">낚시하기</NavItem>
+        <NavItem href="/book">도감</NavItem>
+        <NavItem href="/search">식당 찾기</NavItem>
       </NavLinks>
 
       <UserSection>

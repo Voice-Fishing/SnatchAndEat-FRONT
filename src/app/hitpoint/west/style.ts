@@ -5,7 +5,8 @@ import color from "../../../packages/design-system/color";
 export const Background = styled.div`
     width: 100%;
     height: 100vh;
-    background-image: url("/assets/south.png");
+    overflow : hidden;
+    background-image: url("/assets/west.png");
     background-size: cover;
     background-position: center;
     
@@ -100,8 +101,7 @@ export const SubInfo = styled.div`
 
 export const InfoCard = styled.div`
     width:100%;
-    height:180px;
-    margin-top:25px;
+    height:70%;
     border-radius: 24px 24px 0 0;
     
     display: flex;

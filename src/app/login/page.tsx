@@ -79,7 +79,7 @@ const LoginPage = () => {
         });
 
         setTimeout(() => {
-          router.push('/');
+          router.push('/home');
         }, 1500);
       }
     } catch (error) {

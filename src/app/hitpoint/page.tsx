@@ -9,17 +9,17 @@ const ChoiceMap = () => {
     return (
         <_.Container>
             <_.Background src="/assets/map.png" />
-            <_.Mark onClick={() => router.push("/fishingGame/west")}>
+            <_.Mark onClick={() => router.push("/hitpoint/west")}>
                 서해
                 <_.MarkImage src="/assets/mark.svg" />
 
             </_.Mark>
-            <_.Mark2 onClick={() => router.push("/fishingGame/south")}>
+            <_.Mark2 onClick={() => router.push("/hitpoint/south")}>
                 남해
                 <_.MarkImage src="/assets/mark.svg" />
 
             </_.Mark2>
-            <_.Mark3 onClick={() => router.push("/fishingGame/east")}>
+            <_.Mark3 onClick={() => router.push("/hitpoint/east")}>
                 동해
                 <_.MarkImage src="/assets/mark.svg" />
 
