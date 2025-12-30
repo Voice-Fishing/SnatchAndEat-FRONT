@@ -6,6 +6,7 @@ import color from '@/packages/design-system/color';
 import font from '@/packages/design-system/font';
 import Header from '@/components/common/Header';
 import Button from '@/components/common/Button';
+import { useRouter } from 'next/navigation';
 
 const HomeContainer = styled.main`
   min-height: 100vh;
@@ -93,6 +94,7 @@ const IMAGES = [
 
 export default function HomePage() {
   const [currentImage, setCurrentImage] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -123,8 +125,8 @@ export default function HomePage() {
             제철 물고기 포인트에서 가상 낚시부터{'\n'}실제 물고기를 다루는 로컬 맛집까지 연결해요
           </Subtitle>
           <ButtonGroup>
-            <Button variant="primary">낚시하러가기</Button>
-            <Button variant="secondary">도감 구경하기</Button>
+            <Button variant="primary" onClick={() => { router.push("/hitpoint") }}>낚시하러가기</Button>
+            <Button variant="secondary" onClick={() => { router.push("/dict") }}>도감 구경하기</Button>
           </ButtonGroup>
         </ContentSection>
       </HomeContainer>

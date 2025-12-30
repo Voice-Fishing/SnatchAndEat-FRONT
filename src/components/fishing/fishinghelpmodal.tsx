@@ -99,16 +99,16 @@ export default FishingHelpModal;
 
 const Backdrop = styled.div`
     position: fixed;
-    top: 10%;
-    left: -5%;
-    width: 150vw;
-    height: 130vh;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 110vh;
     background: rgba(21, 21, 21, 0.8);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 3000;
 `;
 
 const ModalContainer = styled.div`

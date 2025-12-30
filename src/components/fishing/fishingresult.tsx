@@ -38,6 +38,7 @@ const FishingResult = ({ result, onClose }: FishingResultProps) => {
 
     return (
         <Backdrop onClick={onClose}>
+            <Title>{result.name}을 낚았습니다!</Title>
             <ModalContainer onClick={(e) => e.stopPropagation()}>
                 <CloseButton onClick={onClose}>
                     <Image src="/assets/close.svg" alt="닫기" width={24} height={24} />
@@ -76,6 +77,11 @@ const FishingResult = ({ result, onClose }: FishingResultProps) => {
 
 export default FishingResult;
 
+const Title = styled.p`
+    ${font.D1};
+    color: ${color.white};
+`;
+
 const Backdrop = styled.div`
     position: fixed;
     top: 0;
@@ -85,6 +91,8 @@ const Backdrop = styled.div`
     background: rgba(21, 21, 21, 0.6);
     backdrop-filter: blur(10px);
     display: flex;
+    flex-direction: column;
+    gap : 24px;
     justify-content: center;
     align-items: center;
     z-index: 1000;

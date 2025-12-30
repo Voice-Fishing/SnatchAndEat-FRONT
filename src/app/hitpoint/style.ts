@@ -44,27 +44,27 @@ const BaseMark = styled.div`
 `;
 
 export const Mark = styled(BaseMark)`
-    top: 55%;
-    left: 37%;
+    top:65%;
+    left: 30.3%;
 `;
 
 export const Mark2 = styled(BaseMark)`
-    top: 78%;
-    left: 53%;
+    top: 93%;
+    left: 55%;
 `;
 
 export const Mark3 = styled(BaseMark)`
-    top: 50%;
-    left: 62%;
+    top: 52%;
+    left: 74%;
 `;
 
 
 export const MarkImage = styled.img`
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
     z-index: -1; /* 텍스트 뒤로 보냄 */
 
     image-rendering: -webkit-optimize-contrast;

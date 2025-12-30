@@ -29,14 +29,15 @@ const FishingButton = ({ onClick, onCatch }: FishingButtonProps) => {
     }
 
     return (
-        <FishingButtonLayout>
+        <FishingButtonLayout onClick={throwHandle}>
             <Image
                 src="/assets/button.svg"
                 alt="낚시 버튼"
                 width={300}
                 height={300}
+
             />
-            <Text onClick={throwHandle}>{isThrow}</Text>
+            <Text>{isThrow}</Text>
         </FishingButtonLayout>
     )
 }
@@ -51,6 +52,14 @@ const FishingButtonLayout = styled.div`
     display : flex;
     align-items : center;
     justify-content : center;
+
+    :hover{
+        p{
+        font-size : 100px;
+        text-shadow: 0px 0px 10px ${color.primary}, 0px 0px 10px ${color.primary}, 0px 0px 10px ${color.primary};
+
+        }
+    }
 `;
 
 const AlertOverlay = styled.div`
@@ -72,9 +81,5 @@ const Text = styled.p`
 
     transition : all 0.3s ease-in-out;
 
-    :hover{
-        font-size : 100px;
-        text-shadow: 0px 0px 10px ${color.primary}, 0px 0px 10px ${color.primary}, 0px 0px 10px ${color.primary};
-    }
 `
 
