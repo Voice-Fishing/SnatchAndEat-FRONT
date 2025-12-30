@@ -99,10 +99,10 @@ export default FishingHelpModal;
 
 const Backdrop = styled.div`
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 10%;
+    left: -5%;
+    width: 150vw;
+    height: 130vh;
     background: rgba(21, 21, 21, 0.8);
     backdrop-filter: blur(10px);
     display: flex;
