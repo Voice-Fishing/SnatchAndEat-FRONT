@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import styled from "@emotion/styled";
-import Header from "@/components/common/Header";
 import SearchBar from "@/components/search/searchbar";
 import SearchResult, { SearchResultItemType } from "@/components/search/searchresult";
+import SearchDescriptionModal from "@/components/modal/searchdescriptionmodal";
 import { useSearchStore } from "@/store/useSearchStroe";
 import axios from "axios";
 
@@ -22,6 +22,7 @@ export default function Search() {
 
     const [isopen, setisopen] = useState(false);
     const [data, setdata] = useState<SearchResultItemType[]>([]);
+    const [selectedShop, setSelectedShop] = useState<SearchResultItemType | null>(null);
 
     const { searchKeyword } = useSearchStore();
 
@@ -145,6 +146,7 @@ export default function Search() {
 
             const searchData = response.data;
             setdata(searchData);
+            console.log(searchData);
             setisopen(true);
 
 
@@ -158,16 +160,27 @@ export default function Search() {
 
     return (
         <SearchWrapper>
-            <Header />
-
             <MapSection>
                 <MapContainer id="search-map" />
             </MapSection>
 
             <SearchBarSection>
                 <SearchBar isopen={isopen} setisopen={searchHandle} />
-                {isopen && <SearchResult data={data} setisopen={setisopen} isopen={isopen} />}
+                {isopen && <SearchResult
+                    data={data}
+                    setisopen={setisopen}
+                    isopen={isopen}
+                    setData={setdata}
+                    onItemClick={(item) => setSelectedShop(item)}
+                />}
             </SearchBarSection>
+
+            {selectedShop && (
+                <SearchDescriptionModal
+                    shop={selectedShop}
+                    onClose={() => setSelectedShop(null)}
+                />
+            )}
         </SearchWrapper>
     );
 }

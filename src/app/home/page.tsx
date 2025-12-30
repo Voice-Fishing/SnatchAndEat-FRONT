@@ -104,7 +104,6 @@ export default function HomePage() {
 
   return (
     <>
-      <Header />
       <HomeContainer>
         <ImageContainer>
           {IMAGES.map((src, index) => (

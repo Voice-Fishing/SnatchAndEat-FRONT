@@ -4,7 +4,7 @@ import React from "react";
 import * as _ from "./style";
 import { useRouter } from "next/navigation";
 
-const East = () => {
+const West = () => {
     // 물고기 이미지 배열
     const fishImages = [
         "/assets/fish1.png",
@@ -17,21 +17,21 @@ const East = () => {
     return (
         <_.Background>
             <_.Main>
-                <_.Back onClick={() => { router.push("/fishingGame") }} >뒤로가기</_.Back>
+                <_.Back onClick={() => { router.push("/hitpoint") }} >뒤로가기</_.Back>
                 <_.InfoBox>
                     <_.Info>
                         <_.MainInfo>
-                            <_.Sea>동해</_.Sea>
-                            <_.SubSea>東海 | East Sea</_.SubSea>
+                            <_.Sea>서해</_.Sea>
+                            <_.SubSea>西海 | West Sea</_.SubSea>
                             <_.Enter>
-                                <_.EnterText>입장하기</_.EnterText>
+                                <_.EnterText onClick={() => {
+                                    localStorage.setItem("sea", "2")
+                                    router.push("/fishing")
+                                }}>입장하기</_.EnterText>
                             </_.Enter>
                         </_.MainInfo>
                         <_.SubInfo>
-                            동해는 대한민국을 비롯해 북한, 러시아, 일본 등 여러 나라에 둘러싸인 아름다운 바다입니다.
-                            한반도의 동쪽부터 러시아 프리모리예 지방의 남쪽까지 넓게 펼쳐져 있으며,
-                            지리적으로는 서태평양의 연안해에 해당합니다. 깊은 수심과 맑은 물을 자랑하는 동해는
-                            우리에게 풍성한 수산 자원을 선물해 주는 소중한 터전입니다.
+                            서해는 한반도와 중국 대륙 사이에 위치한 드넓은 바다로, 흔히 '황해'라고도 불립니다. 수심이 얕고 조수 간만의 차가 매우 커서 세계적으로도 손꼽히는 광활한 갯벌이 발달해 있는 것이 특징입니다. 강물로부터 유입된 풍부한 영양염류 덕분에 수많은 어패류의 산란장이자 서식지가 되어주며, 예로부터 인근 주민들에게 풍요로운 삶의 터전을 제공해 온 생명의 바다입니다.
                         </_.SubInfo>
                     </_.Info>
 
@@ -64,4 +64,4 @@ const East = () => {
     );
 };
 
-export default East;
+export default West;

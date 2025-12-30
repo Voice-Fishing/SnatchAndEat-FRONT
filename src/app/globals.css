@@ -59,3 +59,33 @@ a {
   font-family: 'JL';
   src: url('/font/210L.ttf') format('truetype');
 }
+
+@keyframes vibration {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  12.5% {
+    transform: rotate(1deg);
+  }
+
+  37.5% {
+    transform: rotate(-1deg);
+  }
+
+  62.5% {
+    transform: rotate(1deg);
+  }
+
+  87.5% {
+    transform: rotate(-1deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.vibration {
+  animation: vibration 1s infinite;
+}

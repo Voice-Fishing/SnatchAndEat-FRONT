@@ -5,38 +5,88 @@ import color from "@/packages/design-system/color";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Header = () => {
-    const router = useRouter();
-    const pathname = usePathname();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [userName, setUserName] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const isActive = (path: string) => {
-        return pathname.includes(path);
-    };
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
 
-    return (
-        <HeaderLayout>
-            <Image src="/assets/logo.svg" alt="logo" width={72} height={27} />
-            <MenuLayout>
-                <Menu
-                    onClick={() => router.push("/fishing")}
-                    isActive={isActive("/fishing")}
-                >낚시하기</Menu>
-                <Menu
-                    onClick={() => router.push("/book")}
-                    isActive={isActive("/book")}
-                >도감</Menu>
-                <Menu
-                    onClick={() => router.push("/search")}
-                    isActive={isActive("/search")}
-                >식당 찾기</Menu>
-            </MenuLayout>
-            <UserLayout>
-                <User>로그인</User>
-                <User>회원가입</User>
-            </UserLayout>
-        </HeaderLayout>
-    )
+      fetchUserProfile(token);
+    }
+  }, []);
+
+  const fetchUserProfile = async (token: string) => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}user/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        setUserName(response.data.name);
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      console.error('사용자 정보 가져오기 실패:', error);
+      localStorage.removeItem('authToken');
+      setIsLoggedIn(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setIsLoggedIn(false);
+    setUserName(null);
+    router.push('/');
+  };
+
+  const isActive = (path: string) => {
+    return pathname.includes(path);
+  };
+
+  return (
+    <HeaderLayout>
+      <Image src="/assets/logo.svg" alt="logo" width={72} height={27} onClick={() => router.push("/home")} />
+      <MenuLayout>
+        <Menu
+          onClick={() => router.push("/hitpoint")}
+          isActive={isActive("/hitpoint")}
+        >낚시하기</Menu>
+        <Menu
+          onClick={() => router.push("/dict")}
+          isActive={isActive("/dict")}
+        >도감</Menu>
+        <Menu
+          onClick={() => router.push("/search")}
+          isActive={isActive("/search")}
+        >식당 찾기</Menu>
+      </MenuLayout>
+      <UserLayout>
+        {isLoggedIn ? (
+          <>
+            <User>{userName}님</User>
+            <User onClick={handleLogout}>로그아웃</User>
+          </>
+        ) : (
+          <>
+            <User onClick={() => router.push('/login')}>로그인</User>
+            <User onClick={() => router.push('/signup')}>회원가입</User>
+          </>
+        )}
+      </UserLayout>
+    </HeaderLayout>
+  )
 }
 
 export default Header;

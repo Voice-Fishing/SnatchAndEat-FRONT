@@ -4,7 +4,7 @@ import React from "react";
 import * as _ from "./style";
 import { useRouter } from "next/navigation";
 
-const West = () => {
+const East = () => {
     // 물고기 이미지 배열
     const fishImages = [
         "/assets/fish1.png",
@@ -17,14 +17,17 @@ const West = () => {
     return (
         <_.Background>
             <_.Main>
-                <_.Back onClick={() => { router.push("/fishingGame") }} >뒤로가기</_.Back>
+                <_.Back onClick={() => { router.push("/hitpoint") }} >뒤로가기</_.Back>
                 <_.InfoBox>
                     <_.Info>
                         <_.MainInfo>
-                            <_.Sea>서해</_.Sea>
-                            <_.SubSea>西海 | West Sea</_.SubSea>
+                            <_.Sea>동해</_.Sea>
+                            <_.SubSea>東海 | East Sea</_.SubSea>
                             <_.Enter>
-                                <_.EnterText>입장하기</_.EnterText>
+                                <_.EnterText onClick={() => {
+                                    localStorage.setItem("sea", "1")
+                                    router.push("/fishing")
+                                }}>입장하기</_.EnterText>
                             </_.Enter>
                         </_.MainInfo>
                         <_.SubInfo>
@@ -64,4 +67,4 @@ const West = () => {
     );
 };
 
-export default West;
+export default East;

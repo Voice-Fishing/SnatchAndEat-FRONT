@@ -17,21 +17,21 @@ const South = () => {
     return (
         <_.Background>
             <_.Main>
-                <_.Back onClick={() => { router.push("/fishingGame") }} >뒤로가기</_.Back>
+                <_.Back onClick={() => { router.push("/hitpoint") }} >뒤로가기</_.Back>
                 <_.InfoBox>
                     <_.Info>
                         <_.MainInfo>
                             <_.Sea>남해</_.Sea>
                             <_.SubSea>南海 | South Sea</_.SubSea>
                             <_.Enter>
-                                <_.EnterText>입장하기</_.EnterText>
+                                <_.EnterText onClick={() => {
+                                    localStorage.setItem("sea", "3")
+                                    router.push("/fishing")
+                                }}>입장하기</_.EnterText>
                             </_.Enter>
                         </_.MainInfo>
                         <_.SubInfo>
-                            동해는 대한민국을 비롯해 북한, 러시아, 일본 등 여러 나라에 둘러싸인 아름다운 바다입니다.
-                            한반도의 동쪽부터 러시아 프리모리예 지방의 남쪽까지 넓게 펼쳐져 있으며,
-                            지리적으로는 서태평양의 연안해에 해당합니다. 깊은 수심과 맑은 물을 자랑하는 동해는
-                            우리에게 풍성한 수산 자원을 선물해 주는 소중한 터전입니다.
+                            남해는 한반도의 남쪽 연안을 따라 펼쳐진 바다로, 수천 개의 크고 작은 섬들이 보석처럼 점점히 박혀 있는 다도해의 절경을 자랑합니다. 리아스식 해안이 발달하여 해안선이 복잡하고 아름다우며, 난류의 영향으로 연중 온화한 기후와 풍부한 수온을 유지합니다. 맑은 물과 잔잔한 물결 덕분에 양식업이 크게 발달하였으며, 한려해상 국립공원과 같은 수려한 자연경관을 간직한 우리 민족의 소중한 휴식처이자 자원의 보고입니다.
                         </_.SubInfo>
                     </_.Info>
 

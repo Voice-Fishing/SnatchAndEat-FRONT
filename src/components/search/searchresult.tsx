@@ -12,19 +12,23 @@ export interface SearchResultItemType {
     longitude: number;
     name: string;
     phoneNumber: string;
+    thumbnailUrl: string;
 }
 
 interface SearchResultProps {
     data: SearchResultItemType[];
     isopen: boolean,
     setisopen: (isopen: boolean) => void
+    setData: (data: SearchResultItemType[]) => void
+    onItemClick: (item: SearchResultItemType) => void
 }
 
-const SearchResult = ({ data, isopen, setisopen }: SearchResultProps) => {
+const SearchResult = ({ data, isopen, setisopen, setData, onItemClick }: SearchResultProps) => {
     const { setSearchKeyword } = useSearchStore();
     const resetKeyword = () => {
         setSearchKeyword("");
-        setisopen(!isopen)
+        setisopen(!isopen);
+        setData([]);
     }
 
     return (
@@ -34,7 +38,7 @@ const SearchResult = ({ data, isopen, setisopen }: SearchResultProps) => {
             </CloseResult>
             <SearchResultList>
                 {data.map((item, index) => (
-                    <SearchResultItem key={index}>
+                    <SearchResultItem key={index} onClick={() => onItemClick(item)}>
                         <InfoSection>
                             <RestaurantName>{item.name}</RestaurantName>
                             <MetaRow>
@@ -85,6 +89,12 @@ const SearchResultItem = styled.li`
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid ${color.primary};
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
     
     &:last-of-type {
         border-bottom: none;
