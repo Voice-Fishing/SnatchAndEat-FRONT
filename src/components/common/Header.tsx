@@ -64,8 +64,8 @@ const Header = () => {
           isActive={isActive("/hitpoint")}
         >낚시하기</Menu>
         <Menu
-          onClick={() => router.push("/book")}
-          isActive={isActive("/book")}
+          onClick={() => router.push("/dict")}
+          isActive={isActive("/dict")}
         >도감</Menu>
         <Menu
           onClick={() => router.push("/search")}

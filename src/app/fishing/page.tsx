@@ -7,17 +7,19 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import FishingResult, { FishingResultData } from "@/components/fishing/fishingresult";
-
+import FishingHelpModal from "@/components/fishing/fishinghelpmodal";
+import color from "@/packages/design-system/color";
+import font from "@/packages/design-system/font";
 
 const Fishing = () => {
     const [vibrate, setVibrate] = useState(false);
     const [catchs, setcatch] = useState(false);
     const [isGaming, setIsGaming] = useState(false);
-    const [gradeing, setgradeing] = useState("");
     const [gauge, setGauge] = useState(50);
     const sea = localStorage.getItem("sea");
     const [arrowQueue, setArrowQueue] = useState<{ id: number; key: string; display: string }[]>([]);
     const [showResult, setShowResult] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
     const [catchResult, setCatchResult] = useState<FishingResultData | null>(null);
     const catchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const isProcessing = useRef(false);
@@ -195,6 +197,11 @@ const Fishing = () => {
                 <source src="/assets/sea.mp4" type="video/mp4" />
             </VideoLayout>
 
+            <Menu>
+                <MenuText onClick={() => { router.back() }}>돌아가기</MenuText>
+                <MenuText onClick={() => setShowHelp(true)}>도움말</MenuText>
+            </Menu>
+
             <GameLayout >
                 <Image src="/assets/fishingbar.png" alt="낚시대" width={700} height={700} />
                 {catchs && !isGaming && (
@@ -225,6 +232,10 @@ const Fishing = () => {
                     result={catchResult}
                     onClose={() => setShowResult(false)}
                 />
+            )}
+
+            {showHelp && (
+                <FishingHelpModal onClose={() => setShowHelp(false)} />
             )}
         </FishingLayout>
     );
@@ -276,6 +287,28 @@ const GaugeProgress = styled.div<{ gauge: number }>`
     transition: transform 0.2s linear;
     z-index: 31;
 `;
+
+const Menu = styled.div`
+    position : fixed;
+    top : 10%;
+    left : 0;
+
+    width : 100vw;
+    height : 50px;
+    
+    display : flex;
+    gap : 2%;
+    justify-content : start;
+    align-items : center;
+    padding : 0px 7vw;   
+    z-index : 200;
+`
+
+const MenuText = styled.p`
+    ${font.H1};
+    color : ${color.white};
+    cursor : pointer;
+`
 
 const TargetZone = styled.div`
     position: absolute; width: 800px; height: 150px;
