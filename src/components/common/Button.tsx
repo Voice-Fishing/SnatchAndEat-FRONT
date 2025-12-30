@@ -13,13 +13,16 @@ interface ButtonProps {
 
 const StyledButton = styled.button<{ variant: 'primary' | 'secondary' }>`
   ${font.H2}
-  width: 100%;
-  padding: 16px 32px;
-  border-radius: 12px;
+  padding: 12px 24px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 
   ${({ variant }) =>
     variant === 'primary'
@@ -28,29 +31,22 @@ const StyledButton = styled.button<{ variant: 'primary' | 'secondary' }>`
     color: ${color.white};
     
     &:hover {
-      background: ${color.secondary};
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px ${color.black};
+      opacity: 0.9;
     }
   `
       : `
     background: transparent;
     color: ${color.white};
-    border: 1px solid ${color.white};
-    padding: 12px 48px;
-    width: auto;
-    min-width: 160px;
-    margin: 0 auto;
-    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     
     &:hover {
-      background: ${color.white};
-      color: ${color.black};
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.5);
     }
   `}
 
   &:active {
-    transform: translateY(0);
+    transform: scale(0.98);
   }
 
   &:disabled {
