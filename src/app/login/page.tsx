@@ -9,6 +9,152 @@ import font from '@/packages/design-system/font';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
+import axios from 'axios';
+
+
+const LoginPage = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState({
+    email: false,
+    password: false,
+  });
+  const [modal, setModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: false }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // 간단한 유효성 검사
+    const newErrors = {
+      email: !formData.email || !formData.email.includes('@'),
+      password: !formData.password || formData.password.length < 6,
+    };
+
+    setErrors(newErrors);
+
+    if (newErrors.email || newErrors.password) {
+      setModal({
+        isOpen: true,
+        title: '로그인 실패',
+        message: '이메일 또는 비밀번호를 확인해주세요.',
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      if (response.status === 200) {
+        const authHeader = response.headers.authorization;
+        if (authHeader) {
+          const token = authHeader.startsWith('Bearer ')
+            ? authHeader.substring(7)
+            : authHeader;
+          localStorage.setItem('authToken', token);
+        }
+
+        setModal({
+          isOpen: true,
+          title: '로그인 성공!',
+          message: '환영합니다!',
+        });
+
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        setModal({
+          isOpen: true,
+          title: '로그인 실패',
+          message: '이메일 또는 비밀번호가 일치하지 않습니다.',
+        });
+      } else {
+        setModal({
+          isOpen: true,
+          title: '로그인 실패',
+          message: '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        });
+      }
+    }
+  };
+
+  const handleClose = () => {
+    router.push('/');
+  };
+
+  return (
+    <PageContainer>
+      <Logo>
+        <span className="korean">낚어먹</span>
+        <span className="chinese">魚</span>
+      </Logo>
+
+      <LoginCard>
+        <CloseButton onClick={handleClose}>✕</CloseButton>
+        <Title>로그인</Title>
+
+        <Form onSubmit={handleSubmit}>
+          <Input
+            type="email"
+            name="email"
+            placeholder="이메일을 입력해주세요"
+            value={formData.email}
+            onChange={handleInputChange}
+            error={errors.email}
+          />
+
+          <Input
+            type="password"
+            name="password"
+            placeholder="비밀번호를 입력해주세요"
+            value={formData.password}
+            onChange={handleInputChange}
+            error={errors.password}
+          />
+
+          <Button type="submit" variant="primary">
+            로그인
+          </Button>
+        </Form>
+
+        <SignupLink>
+          회원이 아니라면?
+          <Link href="/signup">회원가입하기</Link>
+        </SignupLink>
+      </LoginCard>
+
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        title={modal.title}
+        message={modal.message}
+      />
+    </PageContainer>
+  );
+}
+
+export default LoginPage;
 
 const PageContainer = styled.div`
   min-height: 100vh;
@@ -126,107 +272,3 @@ const SignupLink = styled.div`
   }
 `;
 
-export default function LoginPage() {
-    const router = useRouter();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
-    const [errors, setErrors] = useState({
-        email: false,
-        password: false,
-    });
-    const [modal, setModal] = useState({
-        isOpen: false,
-        title: '',
-        message: '',
-    });
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        setErrors(prev => ({ ...prev, [name]: false }));
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // 간단한 유효성 검사
-        const newErrors = {
-            email: !formData.email || !formData.email.includes('@'),
-            password: !formData.password || formData.password.length < 6,
-        };
-
-        setErrors(newErrors);
-
-        if (newErrors.email || newErrors.password) {
-            setModal({
-                isOpen: true,
-                title: '로그인 실패',
-                message: '이메일 또는 비밀번호를 확인해주세요.',
-            });
-            return;
-        }
-
-        // 성공 모달 (실제로는 API 호출)
-        setModal({
-            isOpen: true,
-            title: '로그인 성공!',
-            message: '환영합니다!',
-        });
-    };
-
-    const handleClose = () => {
-        router.push('/');
-    };
-
-    return (
-        <PageContainer>
-            <Logo>
-                <span className="korean">낚어먹</span>
-                <span className="chinese">魚</span>
-            </Logo>
-
-            <LoginCard>
-                <CloseButton onClick={handleClose}>✕</CloseButton>
-                <Title>로그인</Title>
-
-                <Form onSubmit={handleSubmit}>
-                    <Input
-                        type="email"
-                        name="email"
-                        placeholder="이메일을 입력해주세요"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        error={errors.email}
-                    />
-
-                    <Input
-                        type="password"
-                        name="password"
-                        placeholder="비밀번호를 입력해주세요"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        error={errors.password}
-                    />
-
-                    <Button type="submit" variant="primary">
-                        로그인
-                    </Button>
-                </Form>
-
-                <SignupLink>
-                    회원이 아니라면?
-                    <Link href="/signup">회원가입하기</Link>
-                </SignupLink>
-            </LoginCard>
-
-            <Modal
-                isOpen={modal.isOpen}
-                onClose={() => setModal({ ...modal, isOpen: false })}
-                title={modal.title}
-                message={modal.message}
-            />
-        </PageContainer>
-    );
-}
