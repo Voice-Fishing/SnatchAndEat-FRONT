@@ -38,7 +38,7 @@ const Identify = () => {
                 `${process.env.NEXT_PUBLIC_API_URL}fish/identify`,
 
                 {
-                    params: { img: file },
+                    params: { image: file },
                     headers: {
                         "Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
