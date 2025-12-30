@@ -6,6 +6,7 @@ import color from '@/packages/design-system/color';
 import font from '@/packages/design-system/font';
 import Header from '@/components/common/Header';
 import Button from '@/components/common/Button';
+import { useRouter } from 'next/router';
 
 const HomeContainer = styled.main`
   min-height: 100vh;
@@ -96,7 +97,6 @@ export default function HomePage() {
   const router = useRouter();
 
   const [currentImage, setCurrentImage] = useState(0);
-  const router = useRouter();
 
   useEffect(() => {
     const timer = setInterval(() => {
