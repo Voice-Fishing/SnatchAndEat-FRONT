@@ -60,42 +60,42 @@ const Dict = () => {
         name: "",
         seaAreaName: "",
         imageUrl: "",
-        features: []
+        description: ""
     },
     {
         id: 2,
         name: "",
         seaAreaName: "",
         imageUrl: "",
-        features: []
+        description: ""
     },
     {
         id: 3,
         name: "",
         seaAreaName: "",
         imageUrl: "",
-        features: []
+        description: ""
     },
     {
         id: 4,
         name: "",
         seaAreaName: "",
         imageUrl: "",
-        features: []
+        description: ""
     },
     {
         id: 5,
         name: "",
         seaAreaName: "",
         imageUrl: "",
-        features: []
+        description: ""
     },
     {
         id: 6,
         name: "",
         seaAreaName: "",
         imageUrl: "",
-        features: []
+        description: ""
     },
     ]);
 
@@ -212,20 +212,10 @@ const Dict = () => {
                                 <ModalDivider />
                             </ModalFishInfo>
                         </ModalTop>
-                        <ModalFeatures>
-                            {selectedFish.features && selectedFish.features.length > 0 ? (
-                                <>
-                                    <FeatureTitle>특징: {selectedFish.features[0]}</FeatureTitle>
-                                    <FeatureList>
-                                        {selectedFish.features.slice(1).map((feature: string, idx: number) => (
-                                            <FeatureItem key={idx}>• {feature}</FeatureItem>
-                                        ))}
-                                    </FeatureList>
-                                </>
-                            ) : (
-                                <FeatureTitle>특징 정보가 없습니다.</FeatureTitle>
-                            )}
-                        </ModalFeatures>
+                        <ModalDescription>
+                            <DescriptionTitle>상세 정보</DescriptionTitle>
+                            <DescriptionText>{selectedFish.description || "상세 정보가 없습니다."}</DescriptionText>
+                        </ModalDescription>
                     </ModalBox>
                 </ModalOverlay>
             )}
@@ -325,29 +315,26 @@ export const ModalDivider = styled.div`
     opacity: 0.3;
 `;
 
-export const ModalFeatures = styled.div`
+export const ModalDescription = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
 `;
 
-export const FeatureTitle = styled.div`
+export const DescriptionTitle = styled.div`
     ${font.H2}
     color: ${color.primary};
+    margin-bottom: 8px;
 `;
 
-export const FeatureList = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-`;
-
-export const FeatureItem = styled.div`
-    font-size: 16px;
+export const DescriptionText = styled.div`
+    font-size: 18px;
     font-family: JL;
     color: white;
     opacity: 0.9;
-    line-height: 1.5;
+    line-height: 1.6;
+    word-break: keep-all;
+    white-space: pre-wrap;
 `;
 
 export const Background = styled.div`
