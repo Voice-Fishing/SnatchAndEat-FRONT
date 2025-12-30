@@ -9,6 +9,7 @@ const ChoiceMap = () => {
     return (
         <_.Container>
             <_.Background src="/assets/map.png" />
+            <_.BackPoint onClick={() => router.push("/home")}>돌아가기</_.BackPoint>
             <_.Mark onClick={() => router.push("/hitpoint/west")}>
                 서해
                 <_.MarkImage src="/assets/mark.svg" />

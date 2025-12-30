@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import font from "../../packages/design-system/font";
+import color from "@/packages/design-system/color";
 
 export const Container = styled.div`
     position: relative;
@@ -17,6 +18,19 @@ export const Background = styled.img`
     left: 0;
     z-index: 0;
 `;
+
+
+export const BackPoint = styled.p`
+    position : fixed;
+    top : 10%;
+    left : 10%;
+
+    ${font.H1}
+    color: ${color.white};
+    z-index : 100;
+
+    cursor : pointer;
+`
 
 
 const BaseMark = styled.div`

@@ -6,7 +6,7 @@ import color from '@/packages/design-system/color';
 import font from '@/packages/design-system/font';
 import Header from '@/components/common/Header';
 import Button from '@/components/common/Button';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const HomeContainer = styled.main`
   min-height: 100vh;
