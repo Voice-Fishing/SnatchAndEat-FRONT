@@ -46,11 +46,9 @@ const FishingResult = ({ result, onClose }: FishingResultProps) => {
 
                 <TopContent>
                     <ImageWrapper>
-                        <Image
+                        <img
                             src={result.imageUrl || "/assets/db46ed7efe1062b5b241be95828282dcd319a79d.png"}
                             alt={result.name}
-                            fill
-                            style={{ objectFit: 'cover', borderRadius: '16px' }}
                         />
                     </ImageWrapper>
 
@@ -127,13 +125,21 @@ const TopContent = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-    position: relative;
     width: 260px;
-    height: 172px;
-    background: #fff;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     flex-shrink: 0;
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
 `;
 
 const MainInfo = styled.div`
