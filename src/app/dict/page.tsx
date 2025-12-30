@@ -108,10 +108,24 @@ const Dict = () => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedFish, setSelectedFish] = useState<any>(null);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
 
-    const filteredFish = fishData.filter(fish =>
-        fish.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const regions = Array.from(new Set(fishData.map(fish => fish.seaAreaName))).filter(Boolean);
+
+    const filteredFish = fishData.filter(fish => {
+        const matchesSearch = fish.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesRegion = selectedRegions.length === 0 || selectedRegions.includes(fish.seaAreaName);
+        return matchesSearch && matchesRegion;
+    });
+
+    const toggleRegion = (region: string) => {
+        setSelectedRegions(prev =>
+            prev.includes(region)
+                ? prev.filter(r => r !== region)
+                : [...prev, region]
+        );
+    };
 
     return (
         <Background>
@@ -130,12 +144,24 @@ const Dict = () => {
                     />
                 </SearchBarContainer>
 
-                <FilterButton>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                    </svg>
-                    도감 필터
-                </FilterButton>
+                <FilterContainer>
+                    <FilterButton onClick={() => setIsFilterOpen(!isFilterOpen)}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                        도감 필터
+                    </FilterButton>
+                    {isFilterOpen && (
+                        <FilterDropdown>
+                            {regions.map(region => (
+                                <RegionItem key={region} onClick={() => toggleRegion(region)}>
+                                    <Checkbox checked={selectedRegions.includes(region)} />
+                                    <span>{region}</span>
+                                </RegionItem>
+                            ))}
+                        </FilterDropdown>
+                    )}
+                </FilterContainer>
             </TopSection>
 
             <ContentBox>
@@ -390,6 +416,59 @@ export const FilterButton = styled.button`
 
     &:hover {
         background: ${color.primary};
+    }
+`;
+
+export const FilterContainer = styled.div`
+    position: relative;
+`;
+
+export const FilterDropdown = styled.div`
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 200px;
+    background: #151515;
+    border: 2px solid ${color.primary};
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 128, 255, 0.3);
+`;
+
+export const RegionItem = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    font-family: JL;
+    transition: opacity 0.2s;
+    &:hover {
+        opacity: 0.8;
+    }
+`;
+
+export const Checkbox = styled.div<{ checked: boolean }>`
+    width: 18px;
+    height: 18px;
+    border: 1px solid ${color.primary};
+    border-radius: 4px;
+    background: ${props => props.checked ? color.primary : 'transparent'};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+
+    &::after {
+        content: '✓';
+        color: white;
+        font-size: 12px;
+        display: ${props => props.checked ? 'block' : 'none'};
     }
 `;
 

@@ -7,10 +7,7 @@ import color from "@/packages/design-system/color";
 import font from "@/packages/design-system/font";
 
 interface IdentificationResult {
-    fishName: string;
-    seaAreaName: string;
-    prohibitionInfo: string;
-    imageUrl: string;
+    response: string;
 }
 
 const Identify = () => {
@@ -32,15 +29,15 @@ const Identify = () => {
     const identifyFish = async (file: File) => {
         setIsLoading(true);
 
-
         try {
+            const formData = new FormData();
+            formData.append("image", file);
+
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}fish/identify`,
-
+                formData,
                 {
-                    params: { image: file },
                     headers: {
-                        "Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
                     }
                 }
@@ -50,7 +47,11 @@ const Identify = () => {
             setResult(response.data);
         } catch (error) {
             console.error("식별 실패:", error);
-            alert("물고기 식별 중 오류가 발생했습니다.");
+            if (axios.isAxiosError(error)) {
+                alert(`물고기 식별 중 오류가 발생했습니다: ${error.message}`);
+            } else {
+                alert("물고기 식별 중 알 수 없는 오류가 발생했습니다.");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -82,7 +83,7 @@ const Identify = () => {
                                             <polyline points="21 15 16 10 5 21" />
                                         </svg>
                                     </UploadIcon>
-                                    <UploadText>사진 업로드</UploadText>
+                                    <UploadText>물고기 사진 업로드</UploadText>
                                 </>
                             )}
                         </UploadLabel>
@@ -90,27 +91,14 @@ const Identify = () => {
                 ) : (
                     <ResultContainer>
                         <ImageSection>
-                            <img src={previewUrl || result.imageUrl} alt="Identified Fish" />
+                            <img src={previewUrl || ""} alt="Identified Fish" />
                         </ImageSection>
 
                         <InfoSection>
                             <InfoCard>
-                                <InfoTitle>물고기 정보</InfoTitle>
+                                <InfoTitle>식별 결과</InfoTitle>
                                 <InfoContent>
-                                    <InfoRow>
-                                        <InfoLabel>이름 :</InfoLabel>
-                                        <InfoValue>{result.fishName}</InfoValue>
-                                    </InfoRow>
-                                    <InfoDivider />
-                                    <InfoRow>
-                                        <InfoLabel>서식지 :</InfoLabel>
-                                        <InfoValue>{result.seaAreaName}</InfoValue>
-                                    </InfoRow>
-                                    <InfoDivider />
-                                    <InfoRow>
-                                        <InfoLabel>금지체장 & 금어기 :</InfoLabel>
-                                        <InfoValue>{result.prohibitionInfo}</InfoValue>
-                                    </InfoRow>
+                                    <ResultText>{result.response}</ResultText>
                                 </InfoContent>
                             </InfoCard>
                             <RetryButton onClick={() => {
@@ -257,23 +245,14 @@ const InfoContent = styled.div`
     gap: 16px;
 `;
 
-const InfoRow = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 12px;
-`;
-
-const InfoLabel = styled.span`
-    ${font.H3}
-    color: ${color.primary};
-    font-family: JL;
-    white-space: nowrap;
-`;
-
-const InfoValue = styled.span`
+const ResultText = styled.div`
     ${font.H3}
     color: white;
     font-family: JL;
+    line-height: 1.6;
+    word-break: keep-all;
+    white-space: pre-wrap;
+    line-height: 2.5;
 `;
 
 const InfoDivider = styled.div`
