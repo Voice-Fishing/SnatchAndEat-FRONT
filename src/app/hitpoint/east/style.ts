@@ -101,9 +101,8 @@ export const SubInfo = styled.div`
 
 export const InfoCard = styled.div`
     width:100%;
-    height:70%;
+    height:100%;
     border-radius: 24px 24px 0 0;
-    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,8 +113,7 @@ export const InfoCard = styled.div`
 
 export const InfoCardBox = styled.div`
     width:95%;
-    height:150px;
-    
+    margin-top : -20%;
 `;
 
 export const InfoCardText = styled.p`

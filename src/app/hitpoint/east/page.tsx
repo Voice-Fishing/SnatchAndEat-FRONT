@@ -24,7 +24,10 @@ const East = () => {
                             <_.Sea>동해</_.Sea>
                             <_.SubSea>東海 | East Sea</_.SubSea>
                             <_.Enter>
-                                <_.EnterText>입장하기</_.EnterText>
+                                <_.EnterText onClick={() => {
+                                    localStorage.setItem("sea", "1")
+                                    router.push("/fishing")
+                                }}>입장하기</_.EnterText>
                             </_.Enter>
                         </_.MainInfo>
                         <_.SubInfo>

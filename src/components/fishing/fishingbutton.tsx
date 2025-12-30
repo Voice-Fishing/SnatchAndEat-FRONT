@@ -1,13 +1,42 @@
 'use client'
-import color from "@/packages/design-system/color";
+
 import styled from "@emotion/styled";
 import Image from "next/image";
-const FishingButton = () => {
+import font from "@/packages/design-system/font";
+import color from "@/packages/design-system/color";
+
+import { useState } from "react";
+
+type FishingButtonProps = {
+    onClick?: () => void;
+    onCatch?: () => void;
+};
+
+
+const FishingButton = ({ onClick, onCatch }: FishingButtonProps) => {
+
+    const [isThrow, setIsThrow] = useState("THROW");
+
+    const throwHandle = () => {
+        if (isThrow === "CATCH") {
+            onCatch?.();
+            setIsThrow("THROW");
+        }
+        else {
+            onClick?.();
+            setIsThrow("CATCH");
+        }
+    }
+
     return (
         <FishingButtonLayout>
-            <FishingInnerButtonLayout>
-                <Image src="/assets/fishing.svg" alt="낚시 게임 로고" width={350} height={350} />
-            </FishingInnerButtonLayout>
+            <Image
+                src="/assets/button.svg"
+                alt="낚시 버튼"
+                width={300}
+                height={300}
+            />
+            <Text onClick={throwHandle}>{isThrow}</Text>
         </FishingButtonLayout>
     )
 }
@@ -15,42 +44,37 @@ const FishingButton = () => {
 export default FishingButton;
 
 const FishingButtonLayout = styled.div`
-  aspect-ratio: 1;
-  
-  width: 30vw;
-  
-  border-radius: 50%;
-  
-  background-color: ${color.black};
-  border: 2px solid ${color.primary};
+    position: relative;
+    cursor: pointer;
+    width : auto;
+    height : auto;
+    display : flex;
+    align-items : center;
+    justify-content : center;
+`;
 
+const AlertOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  cursor: pointer;
-  overflow: hidden;
-
+  z-index: 200;
 `;
+const Text = styled.p`
+    ${font.D1};
+    color : ${color.white};
+    text-shadow: 0px 0px 10px ${color.primary};
+    position : absolute;
+    bottom : 30%;
+    z-index : 101;
 
+    transition : all 0.3s ease-in-out;
 
-
-const FishingInnerButtonLayout = styled.div`
-  aspect-ratio: 1;
-  
-  width: 20vw;
-  
-  border-radius: 50%;
-  
-  background-image: linear-gradient(to bottom, ${color.white}, ${color.secondary});
-  border: 2px solid ${color.primary};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  cursor: pointer;
-  overflow: hidden;
-  padding-right : 70px;
-`;
+    :hover{
+        font-size : 100px;
+        text-shadow: 0px 0px 10px ${color.primary}, 0px 0px 10px ${color.primary}, 0px 0px 10px ${color.primary};
+    }
+`
 
