@@ -4,11 +4,16 @@ import SearchButton from "./searchbarbutton"
 import SearchInput from "./searchinput"
 import styled from "@emotion/styled";
 
-const SearchBar = () => {
+type SearchBarProps = {
+    isopen: boolean;
+    setisopen: (isopen: boolean) => void;
+}
+
+const SearchBar = ({ isopen, setisopen }: SearchBarProps) => {
     return (
         <SearchBarContainer>
             <SearchInput />
-            <SearchButton />
+            <SearchButton onClick={() => setisopen(!isopen)} />
         </SearchBarContainer>
     )
 }

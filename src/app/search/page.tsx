@@ -4,6 +4,10 @@ import { useEffect, useState, useRef } from "react";
 import styled from "@emotion/styled";
 import Header from "@/components/common/Header";
 import SearchBar from "@/components/search/searchbar";
+import SearchResult, { SearchResultItemType } from "@/components/search/searchresult";
+import { useSearchStore } from "@/store/useSearchStroe";
+import axios from "axios";
+
 
 declare global {
     interface Window {
@@ -14,6 +18,12 @@ declare global {
 export default function Search() {
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
     const mapRef = useRef<any>(null);
+    const markersRef = useRef<any[]>([]);
+
+    const [isopen, setisopen] = useState(false);
+    const [data, setdata] = useState<SearchResultItemType[]>([]);
+
+    const { searchKeyword } = useSearchStore();
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -65,6 +75,87 @@ export default function Search() {
         }
     }, [userLocation]);
 
+
+    useEffect(() => {
+        if (!mapRef.current || !window.kakao) return;
+
+        markersRef.current.forEach(marker => marker.setMap(null));
+        markersRef.current = [];
+
+        if (data.length === 0) return;
+
+        const bounds = new window.kakao.maps.LatLngBounds();
+
+
+        data.forEach((item, index) => {
+            const position = new window.kakao.maps.LatLng(item.latitude, item.longitude);
+
+            const content = `
+                <div style="
+                    width: 24px; 
+                    height: 24px; 
+                    border-radius: 50%; 
+                    background-color: #0080FF; 
+                    display: flex; 
+                    justify-content: center; 
+                    align-items: center; 
+                    color: white; 
+                    font-size: 12px; 
+                    font-weight: 700;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                ">
+                    ${String.fromCharCode(65 + index)}
+                </div>
+            `;
+
+            const customOverlay = new window.kakao.maps.CustomOverlay({
+                position: position,
+                content: content,
+                yAnchor: 1
+            });
+
+            customOverlay.setMap(mapRef.current);
+            markersRef.current.push(customOverlay);
+            bounds.extend(position);
+        });
+
+
+        if (data.length > 0) {
+            mapRef.current.setBounds(bounds);
+        }
+
+    }, [data]);
+
+    const searchHandle = async () => {
+        if (!searchKeyword) {
+            alert("검색어는 빈칸이어선 안돼요!");
+            return;
+        }
+
+        try {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}restaurant/search`,
+                {
+                    params: { keyword: searchKeyword },
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+                    }
+                }
+            );
+
+            const searchData = response.data;
+            setdata(searchData);
+            setisopen(true);
+
+
+
+        } catch (error) {
+            console.error("검색 중 오류 발생:", error);
+            alert("검색 결과를 가져오는 중 문제가 발생했습니다.");
+        }
+    };
+
+
     return (
         <SearchWrapper>
             <Header />
@@ -74,7 +165,8 @@ export default function Search() {
             </MapSection>
 
             <SearchBarSection>
-                <SearchBar />
+                <SearchBar isopen={isopen} setisopen={searchHandle} />
+                {isopen && <SearchResult data={data} setisopen={setisopen} isopen={isopen} />}
             </SearchBarSection>
         </SearchWrapper>
     );

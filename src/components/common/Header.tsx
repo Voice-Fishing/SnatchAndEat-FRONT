@@ -1,17 +1,35 @@
 'use client';
 
 import font from "@/packages/design-system/font";
+import color from "@/packages/design-system/color";
 import styled from "@emotion/styled";
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 
 const Header = () => {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const isActive = (path: string) => {
+        return pathname.includes(path);
+    };
+
     return (
         <HeaderLayout>
             <Image src="/assets/logo.svg" alt="logo" width={72} height={27} />
             <MenuLayout>
-                <Menu>낚시하기</Menu>
-                <Menu>도감</Menu>
-                <Menu>식당 찾기</Menu>
+                <Menu
+                    onClick={() => router.push("/fishing")}
+                    isActive={isActive("/fishing")}
+                >낚시하기</Menu>
+                <Menu
+                    onClick={() => router.push("/book")}
+                    isActive={isActive("/book")}
+                >도감</Menu>
+                <Menu
+                    onClick={() => router.push("/search")}
+                    isActive={isActive("/search")}
+                >식당 찾기</Menu>
             </MenuLayout>
             <UserLayout>
                 <User>로그인</User>
@@ -58,10 +76,13 @@ const UserLayout = styled.div`
   gap : 40px;
 `
 
-const Menu = styled.p`
+const Menu = styled.p<{ isActive: boolean }>`
     ${font.H2};
+    color : ${props => props.isActive ? color.primary : color.white};
+    cursor : pointer;
 `
 
 const User = styled.p`
     ${font.H2};
+    cursor : pointer;
 `

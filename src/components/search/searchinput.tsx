@@ -5,18 +5,21 @@ import color from "@/packages/design-system/color";
 import styled from "@emotion/styled";
 import Image from "next/image";
 
+import { useSearchStore } from "@/store/useSearchStroe";
+
 const SearchInput = () => {
-    return (
-        <InputContainer>
-            <StyledInput type="text" placeholder="식당을 검색해주세요." />
-            <Image
-                src="/assets/search-icon.svg"
-                alt="search"
-                width={16}
-                height={16}
-            />
-        </InputContainer>
-    )
+  const { searchKeyword, setSearchKeyword } = useSearchStore();
+  return (
+    <InputContainer>
+      <StyledInput type="text" placeholder="식당을 검색해주세요." value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+      <Image
+        src="/assets/search-icon.svg"
+        alt="search"
+        width={16}
+        height={16}
+      />
+    </InputContainer>
+  )
 }
 
 export default SearchInput;
@@ -44,8 +47,16 @@ const StyledInput = styled.input`
   color: ${color.white};
 
   ${font.H3};
+
+
   &::placeholder {
     color: ${color.secondary};
-    opacity: 1; 
+    transition: color 0.2s ease; 
   }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
+
+
 `;
