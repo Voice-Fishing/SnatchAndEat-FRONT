@@ -253,6 +253,7 @@ const ResultText = styled.div`
     word-break: keep-all;
     white-space: pre-wrap;
     line-height: 2.5;
+    letter-spacing: 0.05em;
 `;
 
 const InfoDivider = styled.div`
