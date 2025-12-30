@@ -113,7 +113,7 @@ export const InfoCard = styled.div`
 
 export const InfoCardBox = styled.div`
     width:95%;
-    margin-top : -20%;
+    margin-top : -22%;
 `;
 
 export const InfoCardText = styled.p`
@@ -134,7 +134,7 @@ export const MarqueeWrapper = styled.div`
     display: flex;
     width: max-content;
     flex-wrap: nowrap;
-    animation: marquee 10s linear infinite; /* 3세트이므로 시간을 약간 늘림 */
+    animation: marquee 15s linear infinite; /* 3세트이므로 시간을 약간 늘림 */
 
     @keyframes marquee {
         0% { transform: translateX(0); }

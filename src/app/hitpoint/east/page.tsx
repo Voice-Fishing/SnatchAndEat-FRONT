@@ -1,18 +1,38 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as _ from "./style";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const East = () => {
-    // 물고기 이미지 배열
-    const fishImages = [
-        "/assets/fish1.png",
-        "/assets/fish2.png",
-        "/assets/fish3.png",
-    ];
-
+    const [fishImages, setFishImages] = useState<string[]>([]);
     const router = useRouter();
+
+    const GetFish = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}fish`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
+                    }
+                }
+            );
+
+            const eastFish = response.data
+                .filter((fish: any) => fish.seaAreaName === "동해")
+                .map((fish: any) => fish.imageUrl);
+
+            setFishImages(eastFish);
+        } catch (error) {
+            console.error("API 호출 중 에러 발생:", error);
+        }
+    };
+
+    useEffect(() => {
+        GetFish();
+    }, []);
 
     return (
         <_.Background>

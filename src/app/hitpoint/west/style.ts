@@ -121,6 +121,7 @@ export const InfoCardBox = styled.div`
 export const InfoCardText = styled.p`
     ${font.D3}
     color:white;
+    margin-top : -4%;
 `;
 
 export const FishBox = styled.div`

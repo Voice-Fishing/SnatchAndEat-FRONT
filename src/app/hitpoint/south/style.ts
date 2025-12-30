@@ -115,6 +115,7 @@ export const InfoCard = styled.div`
 export const InfoCardBox = styled.div`
     width:95%;
     height:150px;
+    margin-top :-10%;
     
 `;
 
