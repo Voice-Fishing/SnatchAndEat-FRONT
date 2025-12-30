@@ -1,100 +1,88 @@
 'use client';
 
-import styled from '@emotion/styled';
-import color from '@/packages/design-system/color';
-import font from '@/packages/design-system/font';
-import Link from 'next/link';
+import font from "@/packages/design-system/font";
+import color from "@/packages/design-system/color";
+import styled from "@emotion/styled";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 
-const HeaderContainer = styled.header`
+const Header = () => {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const isActive = (path: string) => {
+        return pathname.includes(path);
+    };
+
+    return (
+        <HeaderLayout>
+            <Image src="/assets/logo.svg" alt="logo" width={72} height={27} />
+            <MenuLayout>
+                <Menu
+                    onClick={() => router.push("/fishing")}
+                    isActive={isActive("/fishing")}
+                >낚시하기</Menu>
+                <Menu
+                    onClick={() => router.push("/book")}
+                    isActive={isActive("/book")}
+                >도감</Menu>
+                <Menu
+                    onClick={() => router.push("/search")}
+                    isActive={isActive("/search")}
+                >식당 찾기</Menu>
+            </MenuLayout>
+            <UserLayout>
+                <User>로그인</User>
+                <User>회원가입</User>
+            </UserLayout>
+        </HeaderLayout>
+    )
+}
+
+export default Header;
+
+
+const HeaderLayout = styled.div`
   width: 100%;
-  height: 64px;
+  height: 70px;
+  background-color: rgba(0, 0, 0, 0.5); 
+  
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  padding: 24px 124px;
   align-items: center;
-  padding: 0 40px;
-  background: ${color.black};
-  border-bottom: 1px solid ${color.primary};
+
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 100;
 `;
 
-const LogoSection = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
 
-const LogoText = styled.span`
-  font-family: 'JR';
-  font-size: 24px;
-  color: ${color.white};
-  
-  & span {
-    color: ${color.primary};
-  }
-`;
+const MenuLayout = styled.div`
+  display : flex;
+  flex-direction : row;
+  justify-content : space-between;
+  align-items : center;
+  gap : 40px;
+`
 
-const NavLinks = styled.nav`
-  display: flex;
-  gap: 40px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-`;
+const UserLayout = styled.div`
+  display : flex;
+  flex-direction : row;
+  justify-content : space-between;
+  align-items : center;
+  gap : 40px;
+`
 
-const NavItem = styled(Link)`
-  ${font.H2}
-  color: ${color.white};
-  text-decoration: none;
-  transition: color 0.2s ease;
+const Menu = styled.p<{ isActive: boolean }>`
+    ${font.H2};
+    color : ${props => props.isActive ? color.primary : color.white};
+    cursor : pointer;
+`
 
-  &:hover {
-    color: ${color.primary};
-  }
-`;
-
-const UserSection = styled.div`
-  display: flex;
-  gap: 24px;
-  align-items: center;
-`;
-
-const UserText = styled.span`
-  ${font.H3}
-  color: ${color.white};
-`;
-
-const LogoutBtn = styled(Link)`
-  ${font.H3}
-  color: ${color.white};
-  text-decoration: none;
-  
-  &:hover {
-    color: ${color.primary};
-  }
-`;
-
-export default function Header() {
-  return (
-    <HeaderContainer>
-      <Link href="/home" style={{ textDecoration: 'none' }}>
-        <LogoSection>
-          <LogoText>낚아먹<span>魚</span></LogoText>
-        </LogoSection>
-      </Link>
-
-      <NavLinks>
-        <NavItem href="/fishing">낚시하기</NavItem>
-        <NavItem href="/encyclopedia">도감</NavItem>
-        <NavItem href="/restaurant">식당 찾기</NavItem>
-      </NavLinks>
-
-      <UserSection>
-        <UserText>아이디</UserText>
-        <LogoutBtn href="/">로그아웃</LogoutBtn>
-      </UserSection>
-    </HeaderContainer>
-  );
-}
+const User = styled.p`
+    ${font.H2};
+    cursor : pointer;
+`
