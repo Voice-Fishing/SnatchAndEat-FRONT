@@ -5,6 +5,7 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import color from "@/packages/design-system/color";
 import font from "@/packages/design-system/font";
+import { useRouter } from "next/navigation";
 
 
 const Dict = () => {
@@ -106,6 +107,7 @@ const Dict = () => {
     }, []);
 
 
+    const router = useRouter();
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedFish, setSelectedFish] = useState<any>(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -143,6 +145,10 @@ const Dict = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                     />
                 </SearchBarContainer>
+
+                <BackPoint onClick={() => router.push("/home")}>
+                    돌아가기
+                </BackPoint>
 
                 <FilterContainer>
                     <FilterButton onClick={() => setIsFilterOpen(!isFilterOpen)}>
@@ -224,6 +230,21 @@ const Dict = () => {
 };
 
 export default Dict;
+
+export const BackPoint = styled.p`
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    ${font.H1}
+    color: ${color.white};
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: ${color.primary};
+    }
+`;
 
 export const ModalOverlay = styled.div`
     position: fixed;

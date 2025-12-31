@@ -7,6 +7,9 @@ import SearchResult, { SearchResultItemType } from "@/components/search/searchre
 import SearchDescriptionModal from "@/components/modal/searchdescriptionmodal";
 import { useSearchStore } from "@/store/useSearchStroe";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import font from "@/packages/design-system/font";
+import color from "@/packages/design-system/color";
 
 
 declare global {
@@ -16,6 +19,7 @@ declare global {
 }
 
 export default function Search() {
+    const router = useRouter();
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
     const mapRef = useRef<any>(null);
     const markersRef = useRef<any[]>([]);
@@ -160,6 +164,9 @@ export default function Search() {
 
     return (
         <SearchWrapper>
+            <BackPoint onClick={() => router.push("/home")}>
+                돌아가기
+            </BackPoint>
             <MapSection>
                 <MapContainer id="search-map" />
             </MapSection>
@@ -210,4 +217,19 @@ const SearchBarSection = styled.div`
   position: fixed;
   top: 100px;
   left: 63%;
+`;
+
+export const BackPoint = styled.p`
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    ${font.H1}
+    color: ${color.white};
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: ${color.primary};
+    }
 `;

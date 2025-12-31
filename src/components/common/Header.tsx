@@ -139,4 +139,5 @@ const Menu = styled.p<{ isActive: boolean }>`
 const User = styled.p`
     ${font.H2};
     cursor : pointer;
+    color : white;
 `

@@ -5,12 +5,14 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import color from "@/packages/design-system/color";
 import font from "@/packages/design-system/font";
+import { useRouter } from "next/navigation";
 
 interface IdentificationResult {
     response: string;
 }
 
 const Identify = () => {
+    const router = useRouter();
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [result, setResult] = useState<IdentificationResult | null>(null);
@@ -60,7 +62,9 @@ const Identify = () => {
     return (
         <Background>
             <HeaderPlaceholder />
-
+            <BackPoint onClick={() => router.push("/home")}>
+                돌아가기
+            </BackPoint>
             <MainContent>
                 {!result ? (
                     <UploadCard>
@@ -117,6 +121,21 @@ const Identify = () => {
 };
 
 export default Identify;
+
+export const BackPoint = styled.p`
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    ${font.H1}
+    color: ${color.white};
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: ${color.primary};
+    }
+`;
 
 const Background = styled.div`
     width: 100%;
