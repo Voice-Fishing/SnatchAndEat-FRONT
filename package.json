@@ -17,11 +17,11 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^25",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.35",
-    "typescript": "^5"
+    "eslint": "^10",
+    "eslint-config-next": "16.2.1",
+    "typescript": "^6"
   }
 }
